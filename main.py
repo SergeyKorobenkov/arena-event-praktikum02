@@ -39,7 +39,8 @@ class Thing(object):
         self.item_hp = item_hp
 
     def __str__(self):
-        return f'{self.item_name}: armor {self.item_armor}, damage {self.item_damage}, hp {self.item_hp}'
+        return f'{self.item_name}: armor {self.item_armor},\
+         damage {self.item_damage}, hp {self.item_hp}'
 
 
 class Person(object):
@@ -76,7 +77,8 @@ class Person(object):
         pass
 
     def __str__(self):
-        return f'base attack: {self.base_attack}, base armor: {self.base_armor}, base hp: {round(self.hp, 4)}'
+        return f'base attack: {self.base_attack},' \
+               f' base armor: {self.base_armor}, base hp: {round(self.hp, 4)}'
 
 
 class Paladin(Person):
@@ -98,9 +100,8 @@ class Warrior(Person):
         return self.name + ' warrior ' + super().__str__()
 
 
-# obj = Paladin('John')
-
-# Шаг 1 - создаем произвольное количество вещей с различными параметрами, процент защиты не должен превышать 10%(0.1)
+#  Шаг 1 - создаем произвольное количество вещей с различными параметрами,
+#  процент защиты не должен превышать 10%(0.1)
 
 item_list = []
 for i in range(1, 40 + int(20 * random.random())):
@@ -115,7 +116,8 @@ things_list = []
 for i in item_list:
     things_list.append(Thing(*i))
 
-#    Шаг 2 - создаем произвольно 10 персонажей, кол-во воинов и паладинов произвольно.
+#    Шаг 2 - создаем произвольно 10 персонажей,
+#    кол-во воинов и паладинов произвольно.
 #    Имена персонажам тоже рандомные из созданного списка 20 имен.
 
 persons_list = []
@@ -141,15 +143,8 @@ for person in persons_list:
 
     person.setThings(peronal_items_set)
 
-# // Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке выбирается пара Нападающий и Защищающийся.
-#     У Защищающегося вызывается метод вычитания жизни на основе атаки (attack_damage) Нападающего .
-#     Количество получаемого урона рассчитывается по формуле (attack_damage - attack_damage*finalProtection)
-#     Общий процент защиты (finalProtection) вычисляется по формуле (базовый процент защиты + процент защиты от всех надетых вещей)
-#     Жизнь вычитается по формуле (HitPoints - (attack_damage - attack_damage*finalProtection)), где finalProtection - коэффициент защиты в десятичном виде;
-#
-#     Цикл идет до тех пор, пока не останется последнего выжившего.
-#     Как только кол-во жизней меньше или равно 0, персонаж удаляется из арены (списка).
-#     Для отслеживания процесса битвы выведите информацию в таком виде: ({атакующий персонаж} наносит удар по {защищающийся персонаж} на {кол-во урона} урона)
+# // Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
+#  выбирается пара Нападающий и Защищающийся.
 
 battle = 1
 
@@ -161,13 +156,15 @@ while battle != 0:
     print('FIGHT!!!')
     while fight != 0:
         if coin_trow():
-            print(f'{first_player.name} наносит удар по {second_player.name} на {first_player.base_attack} урона')
+            print(f'{first_player.name} наносит удар по '
+                  f'{second_player.name} на {first_player.base_attack} урона')
             if not second_player.take_hit_is_alive(first_player.base_attack):
                 print(second_player.name + ' Побежден!')
                 persons_list.pop(persons_list.index(second_player))
                 fight = 0
         else:
-            print(f'{second_player.name} наносит удар по {first_player.name} на {second_player.base_attack} урона')
+            print(f'{second_player.name} наносит удар по'
+                  f' {first_player.name} на {second_player.base_attack} урона')
             if not first_player.take_hit_is_alive(second_player.base_attack):
                 print(first_player.name + ' Побежден!')
                 persons_list.pop(persons_list.index(first_player))
