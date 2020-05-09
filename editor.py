@@ -43,3 +43,12 @@ def create_different_characters():
     return characters
 
 
+def make_equipment_set(equipments):
+    equipment_set = []
+
+    for _ in range(random.randint(1, 4)):
+        equipment_set.append(random.choice(equipments))
+
+    return equipment_set
+
+
