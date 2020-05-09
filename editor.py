@@ -4,20 +4,20 @@ from characters import Paladin, Warrior
 from equipment import Equipment
 
 
-def create_equipments_names():
-    with open('equipments_names.txt') as file:
-        equipments_names = [line.rstrip() for line in file]
+def create_names_from_file(filename):
+    with open(filename) as file:
+        names = [line.rstrip() for line in file]
 
-    return equipments_names
+    return names
 
 
 def create_different_equipments():
     equipments = []
 
     for _ in range(45):
-        name = random.choice(create_equipments_names())
+        name = random.choice(create_names_from_file('equipments_names.txt'))
         protection = random.randint(1, 100) / 1000
-        attack = random.randint(1, 100)
+        attack = random.randint(1, 10)
         hp = random.randint(1, 100)
 
         equipments.append(Equipment(
@@ -63,5 +63,3 @@ def equip_characters(characters, equipments):
     for character in characters:
         equipment_set = make_equipment_set(equipments)
         character.set_equipments(equipment_set)
-
-create_equipments_names()
