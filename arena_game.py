@@ -12,7 +12,10 @@ class Things:
     """
 
     def __init__(self, name, defence_pct, attack_pct, hitpoints):
-        pass
+        self.name = name
+        self.defence_pct = defence_pct
+        self.attack_pct = attack_pct
+        self.hitpoints = hitpoints
 
 
 class Person:
@@ -25,7 +28,22 @@ class Person:
     """
 
     def __init__(self, name, base_defence_pct, base_attack_pct, hitpoints):
-        pass
+        self.name = name
+        self.defence_pct = base_defence_pct
+        self.attack_pct = base_attack_pct
+        self.hitpoints = hitpoints
+        self.things = []
+
+    def setThings(self, things):
+        """
+        Метод устанавливает список вещей персонажа.
+
+        Метод заполняет атрибут things[] обекта класса Person, располагая при
+        этом вещи в порядке возрастания значения Things.defence_pct.
+        :param things: спсок из объектов класса Things.
+        :return:
+        """
+        self.things = sorted(things, key=lambda things: things.defence_pct)
 
 
 class Paladin(Person):
