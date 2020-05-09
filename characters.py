@@ -20,3 +20,16 @@ class Person():
         damage = incoming_attack * (1 - self.protection)
         self.hp -= damage
 
+
+class Paladin(Person):
+    def __init__(self, name, base_hp, base_attack, base_protection):
+        super().__init__(name, base_hp, base_attack, base_protection)
+        self.base_hp = base_hp
+        self.set_base_protection()
+
+    def set_base_protection(self):
+        self.base_protection *= 2
+
+        if self.base_protection > 0.5:
+            self.base_protection = 0.5
+
