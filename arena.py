@@ -1,12 +1,26 @@
-from random import randint, uniform
+from random import randint, uniform, choice
 
-names = ['Рембо', 'Стрелок', 'Паша', 'Арнольд', 'Жорик', 'Михан', 'Косой', 'Лысый', 'Муха', 'Братюня',
-         'Белый', 'Жук', 'Тони', 'Боб', 'Алик', 'Сиплый', 'Шустрый', 'Майкл', 'Малек', 'Серый'
+names = ['Рембо', 'Стрелок', 'Паша', 'Арнольд', 'Жорик', 'Михан',
+         'Косой', 'Лысый', 'Муха', 'Братюня',
+         'Белый', 'Жук', 'Тони', 'Боб', 'Алик',
+         'Сиплый', 'Шустрый', 'Майкл', 'Малек', 'Серый'
          ]
+name_thing = ['shoes', 'jacket', 'shield', 'gloves',
+              'hat', 'knife', 'bat', 'sword', 'gun', 'spear']
+
+
+class Thing:
+    def __init__(self, name,  protection=uniform(0.05, 0.1),
+                 attack=uniform(0.01, 0.1), hp=randint(1, 2)):
+        self.name = name
+        self.protection = protection
+        self.attack = attack
+        self.hp = hp
 
 
 class Person:
-    def __init__(self, name, hp=1, attack_damage=0.1, protection_person=0.1):
+
+    def __init__(self, name, hp, attack_damage, protection_person):
         self.name = name
         self.hp = hp
         self.attack_damage = attack_damage
@@ -14,40 +28,13 @@ class Person:
         self.finalProtection = 0
         self.HitPoints = 0
 
-    def setThings(self):
-        self.number = randint(1, 4)
-        self.things = [
-            {'name': 'shoes', 'protection': 0.05,
-                'attack': 0.05, 'thing_hp': 0.01},
-            {'name': 'jacket', 'protection': 0.06,
-             'attack': 0.06, 'thing_hp': 0.01},
-            {'name': 'shield', 'protection': 0.1,
-                'attack': 0.06, 'thing_hp': 0.01},
-            {'name': 'gloves', 'protection': 0.05,
-             'attack': 0.01, 'thing_hp': 0.01},
-            {'name': 'hat', 'protection': 0.04,
-             'attack': 0.01, 'thing_hp': 0.01},
-            {'name': 'knife', 'protection': 0.01,
-             'attack': 0.9, 'thing_hp': 0.01},
-            {'name': 'bat', 'protection': 0.01,
-             'attack': 0.8, 'thing_hp': 0.02},
-            {'name': 'sword', 'protection': 0.02,
-             'attack': 0.1, 'thing_hp': 0.02},
-            {'name': 'gun', 'protection': 0.01,
-             'attack': 0.1, 'thing_hp': 0.03},
-            {'name': 'spear', 'protection': 0.01,
-             'attack': 0.09, 'thing_hp': 0.04}
-        ]
-        self.list_things = []
-        for i in range(self.number):
-            self.list_things.append(self.things[randint(0, 9)])
-            i = i + 1
-
-        for j in self.list_things:
-            self.HitPoints += self.hp + round((self.hp * j['thing_hp']), 2)
-            self.attack_damage += round((self.attack_damage * j['attack']), 2)
-            self.finalProtection = self.protection_person + round(
-                (self.protection_person * j['protection']), 2)
+    def setThings(self, things):
+        self.things = things
+        for j in self.things:
+            self.HitPoints += self.hp + (self.hp * j.hp)
+            self.attack_damage += (self.attack_damage * j.attack)
+            self.finalProtection = self.protection_person + \
+                (self.protection_person * j.protection)
 
     def attack(self, attack):
         self.damage = attack - attack*self.finalProtection
@@ -55,13 +42,16 @@ class Person:
 
 
 class Paladin(Person):
-    def __init__(self, name, hp=1, attack_damage=0.1, protection_person=0.1):
-        super().__init__(name, hp * 2, attack_damage, protection_person * 2)
+    def __init__(self, name, hp, attack_damage, protection_person):
+        super().__init__(name, hp, attack_damage, protection_person)
+        self.protection_person *= 2
+        self.hp *= 2
 
 
 class Warrior(Person):
-    def __init__(self, name, hp=1, attack_damage=0.1, protection_person=0.1):
-        super().__init__(name, hp, attack_damage * 2, protection_person)
+    def __init__(self, name, hp, attack_damage, protection_person):
+        super().__init__(name, hp, attack_damage, protection_person)
+        self.attack_damage *= 2
 
 
 def create_person():
@@ -70,23 +60,33 @@ def create_person():
     for i in range(10):
         name = names[randint(0, len(names) - 1)]
         player = f'player_{i}'
-        player = list_pw[randint(0, 1)](name, randint(
+        player = choice(list_pw)(name, randint(
             1, 2), uniform(0.05, 0.1), uniform(0.05, 0.1))
         list_person.append(player)
         i += 1
     return list_person
 
 
+def create_things():
+    things = []
+    for i in range(randint(1, 4)):
+        thing = f'thing_{i}'
+        thing = Thing(choice(name_thing))
+        things.append(thing)
+    return things
+
+
 def main():
     list_person = create_person()
     for person in list_person:
-        person.setThings()
+        person.setThings(create_things())
     while len(list_person) > 1:
         attack = list_person[randint(0, len(list_person)-1)]
         protection = list_person[randint(0, len(list_person) - 1)]
         protection.attack(attack.attack_damage)
         print(
-            f'{attack.name} наносит удар по {protection.name} на {attack.attack_damage:.2f} урона')
+            f'{attack.name} наносит удар по {protection.name}'
+            f' на {attack.attack_damage:.2f} урона')
         if protection.HitPoints <= 0:
             list_person.remove(protection)
             print(f'\nУчастник {protection.name} выбыл\n')
