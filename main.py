@@ -17,6 +17,7 @@ def main():
     for person in people:
         things_for_person = [things.pop() for _ in range(0, random.randint(1, THINGS_LIMIT_FOR_PERSON))]
         person.set_things(things_for_person)
+
     while len(people) > 1:
         attacker, defendant = random.choices(people, k=2)
         # random.choices оказывается умеет выбирать два одинаковых из списка :(

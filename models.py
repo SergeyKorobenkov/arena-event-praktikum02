@@ -96,13 +96,13 @@ class Person:
 
 
 class Paladin(Person):
-    def __init__(self, name, base_hp, base_attack, base_defence):
-        super().__init__(name, base_hp, base_attack, base_defence)
-        self.hp = 2 * base_hp
-        self.defence = 2 * base_defence
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.hp = 2 * self.hp
+        self.defence = 2 * self.defence
 
 
 class Warrior(Person):
-    def __init__(self, name, base_hp, base_attack, base_defence):
-        super().__init__(name, base_hp, base_attack, base_defence)
-        self.attack = 2 * base_attack
+    def __init__(self, *args):
+        super().__init__(*args)
+        self.attack = 2 * self.attack
