@@ -22,10 +22,34 @@ class Person:
         self.things = things
     
     # Здесь будут ещё методы, чтобы реализовать бой
+    def count_attack(self):
+        finalAttack = self.base_attack + sum(item.attack for item in self.things)
+        return finalAttack
+
+    def make_hit(self, damage_done):
+        del_after_cycle = []
+        for i in range(len(self.things)):
+            if self.things[i].attack > 0:   #Если вещь участвовала в атаке,
+                self.things[i].hp -= 0.1*random.random()*damage_done    #она получает некоторый урон
+                if self.things[i].hp < 0:
+                    print(f'{self.name} теряет предмет \"{self.things[i].name}\"!')
+                    del_after_cycle = [i] + del_after_cycle
+        for i in range(len(del_after_cycle)):
+            self.things.pop(del_after_cycle[i])
+
     def get_hit(self, attack_damage):
+        del_after_cycle = []
         finalProtection = self.base_defence + sum(item.defence for item in self.things)
         damage_done = attack_damage*(1-finalProtection)
         self.hp -= damage_done
+        for i in range(len(self.things)):
+            if self.things[i].defence > 0:   #Если эта вещь участвует в защите,
+                self.things[i].hp -= 0.1*random.random()    # То она получает некоторый урон
+            if self.things[i].hp < 0:
+                print(f'{self.name} теряет предмет \"{self.things[i].name}\"!')
+                del_after_cycle = [i] + del_after_cycle
+        for i in range(len(del_after_cycle)):
+            self.things.pop(del_after_cycle[i])
         return damage_done
 
 
@@ -85,9 +109,10 @@ def play_arena(arena_characters):
         # Выберем из всех персонажей на арене двоих -- нападающего и защищающегося
         defender = arena_characters.pop(random.randint(0, alive-1)) # Не забыть вернуть его обратно,если будет жив
         attacker_id = random.randint(0, alive - 2)
-        attacker_name, attack_damage = arena_characters[attacker_id].name, arena_characters[attacker_id].base_attack
+        attacker_name, attack_damage = arena_characters[attacker_id].name, arena_characters[attacker_id].count_attack()
         damage_done = defender.get_hit(attack_damage)
-        print(f'{attacker_name} наносит удар по {defender.name} на {damage_done:.2f} урона')
+        arena_characters[attacker_id].make_hit(damage_done)
+        print(f'{attacker_name} наносит удар по {defender.name} на {damage_done:.1f} урона')
         if defender.hp <= 0:
             print(f'{defender.name} идёт отдыхать')
         else:
@@ -96,7 +121,7 @@ def play_arena(arena_characters):
     winner = arena_characters[0]
     print(f'Побеждает {winner.name} со следующими предметами: '
         f'{", ".join(th.name for th in winner.things)} '
-        f'и оставшимся здоровьем в количестве {winner.hp:.2f} хп!')
+        f'и оставшимся здоровьем в количестве {winner.hp:.1f} хп!')
 
 arena_characters = create_characters(10)
 play_arena(arena_characters)
