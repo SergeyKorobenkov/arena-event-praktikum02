@@ -8,6 +8,8 @@ from world.texts import (fighter_is_dead_msg, greetings_msg, mode_msg,
 '''
 Игра запускается функцией play
 Настройки находятся в файле world/settings.py
+Для полного соотвествия ТЗ в settings.py нужно включить опцию
+HACKATONE_MODE = True
 play() поддерживат две опции:
 start_comment=True - Для отображения дополнительных стартовых комментов
 interactive=True - Для интерактивного режима игры
