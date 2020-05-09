@@ -11,7 +11,7 @@ def create_equipments_names():
     return equipments_names
 
 
-def create_different_equipment():
+def create_different_equipments():
     equipments = []
 
     for _ in range(45):

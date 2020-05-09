@@ -2,7 +2,7 @@ import random
 
 from editor import (
     create_different_characters,
-    create_different_equipment,
+    create_different_equipments,
     equip_characters,
 )
 
@@ -21,7 +21,7 @@ def main():
         defending = random.choice(defending_characters)
 
         attacking.make_attack(defending)
-        print(attacking.name, 'атакует', defending.name)
+        print(attacking.name, 'атакует', defending.name, 'c помощью', attacking.equipments[0].name)
 
         if defending.hp <= 0:
             characters.remove(defending)
