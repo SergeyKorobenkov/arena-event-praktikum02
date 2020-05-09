@@ -1,11 +1,43 @@
 class Person():
+    '''
+    A class used to represent different Person types.
+
+    Attributes:
+        name (str): persons name.
+        base_hp (int): persons health.
+        base_attack (int): persons attack.
+        base_protection (int): persons protection from 0.001 to 0.25.
+        equipments (list, optional): list of persons equipment.
+        hp (int, optional): persons health with equipments.
+        attack (int, optional): persons attack with equipments.
+        protection (int, optional): persons protection with equipments.
+    '''
+
     def __init__(self, name, base_hp, base_attack, base_protection):
+        '''
+        The constructor for Person class.
+
+        Parameters:
+            name (str): persons name.
+            base_hp (int): persons health.
+            base_attack (int): persons attack.
+            base_protection (int): persons protection from 0.001 to 0.25.
+        '''
+
         self.name = name
         self.base_hp = base_hp
         self.base_attack = base_attack
         self.base_protection = base_protection
 
     def set_equipments(self, equipments):
+        '''
+        The function add list of Equipment class objects to Person and
+        update Persons hp, attack and protection.
+
+        Parametrs:
+            equipments (list): list of Equipment class objects.
+        '''
+
         self.equipments = equipments
 
         for equipment in self.equipments:
@@ -14,20 +46,54 @@ class Person():
             self.protection = self.base_protection + equipment.protection
 
     def make_attack(self, victim):
+        '''
+        The function passes Persons attack value to victims
+        method reduction_hp().
+
+        Parametrs:
+            victim (Person): object of Person class or of it's childs classes.
+        '''
+
         victim.reduction_hp(self.attack)
 
     def reduction_hp(self, incoming_attack):
+        '''
+        The function reduce Persons hp by a value equal to incoming_attack.
+
+        Parametrs:
+            incoming_attack (int): amount of incoming attack.
+        '''
+
         damage = incoming_attack * (1 - self.protection)
         self.hp -= damage
 
 
 class Paladin(Person):
+    '''
+    A class used to represent Paladin types.
+
+    Attributes:
+        Same as Person class, only base_hp and base_protection double.
+    '''
+
     def __init__(self, name, base_hp, base_attack, base_protection):
+        '''
+        The constructor for Paladin class.
+
+        Parameters:
+            Same as Person class, only base_hp and base_protection double.
+        '''
+
         super().__init__(name, base_hp, base_attack, base_protection)
         self.base_hp = base_hp
         self.set_base_protection()
 
     def set_base_protection(self):
+        '''
+        The function doubles base_protextion attribute and sets it to 0.5
+        if its amount bigger then 0.5.
+        '''
+
         self.base_protection *= 2
 
         if self.base_protection > 0.5:
@@ -35,6 +101,20 @@ class Paladin(Person):
 
 
 class Warrior(Person):
+    '''
+    A class used to represent Warrior types.
+
+    Attributes:
+        Same as Person class, only base_attack doubles.
+    '''
+
     def __init__(self, name, base_hp, base_attack, base_protection):
+        '''
+        The constructor for Warrior class.
+
+        Parameters:
+            Same as Person class, only base_attack doubles.
+        '''
+
         super().__init__(name, base_hp, base_attack, base_protection)
         self.base_attack *= 2
