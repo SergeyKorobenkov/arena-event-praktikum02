@@ -48,9 +48,9 @@ class Person(object):
     def __init__(self, name):
         self.things_set = []
         self.name = name
-        self.hp = 100
-        self.base_attack = 10
-        self.base_armor = 0
+        self.hp = 100 + random.randint(1, 10)
+        self.base_attack = 10 + random.randint(1, 5)
+        self.base_armor = 0.1
         self.kills = 0
 
     # Одеваем персонажа перед боем и пересчитываем его статы
