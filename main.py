@@ -63,8 +63,8 @@ class Person(object):
 
     # Считаем урон и возаращаем False если персонаж умер
     def take_hit_is_alive(self, hit):
-        self.hp -= hit * self.base_armor
-        print(f'{self.name} теряет {round(hit * self.base_armor, 4)} HP')
+        self.hp = self.hp - (hit - hit * self.base_armor)
+        print(f'{self.name} теряет {round(hit - hit * self.base_armor, 4)} HP')
         if self.hp <= 0:
             # print(self.name + ' is dead! ')
             return False
@@ -152,8 +152,8 @@ def one_hit(first_player, second_player):
     if not second_player.take_hit_is_alive(first_player.base_attack):
         print(second_player.name + ' побежден!')
         persons_list.pop(persons_list.index(second_player))
-        return 0
-
+        return False
+    return True
 
 things_list = armory()
 persons_list = heroes_of_arena()
@@ -161,15 +161,15 @@ prepair_for_battle(persons_list, things_list)
 
 # Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
 #  выбирается пара Нападающий и Защищающийся.
-battle = 1
+battle = True
 
-while battle != 0:
+while battle:
     first_player, second_player = random.sample(persons_list, 2)
     print('Арена выбрала: \n', first_player, ' и \n', second_player)
-    fight = 1
+    fight = True
     print(first_player.name, 'vs', second_player.name)
     print('FIGHT!!!')
-    while fight != 0:
+    while fight:
         if coin_trow():
             fight = one_hit(first_player, second_player)
         else:
@@ -177,6 +177,6 @@ while battle != 0:
 
     if len(persons_list) == 1:
         print('Турнир окончен! Победитель: ', persons_list[0].name)
-        battle = 0
+        battle = False
     else:
         print('\n Осталось бойцов ', len(persons_list))
