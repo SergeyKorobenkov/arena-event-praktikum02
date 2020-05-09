@@ -63,10 +63,10 @@ class Person(object):
 
     # Считаем урон и возаращаем False если персонаж умер
     def take_hit_is_alive(self, hit):
-        self.hp = self.hp - (hit - hit * self.base_armor)
-        print(f'{self.name} теряет {round(hit - hit * self.base_armor, 4)} HP')
+        result_hit = hit - hit * self.base_armor
+        self.hp -= result_hit
+        print(f'{self.name} теряет {round(result_hit, 4)} HP')
         if self.hp <= 0:
-            # print(self.name + ' is dead! ')
             return False
         return True
 
