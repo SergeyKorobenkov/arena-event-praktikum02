@@ -1,7 +1,7 @@
 from random import randint, uniform
 
-names = ['oleg', 'ivan', 'anatoly', 'zorg', 'mihail', 'angel', 'rembo', 'luiz', 'igor', 'zena',
-         'varvar', 'garry', 'tommy', 'lokky', 'andrey', 'valter', 'vasya', 'john', 'jeck', 'serg'
+names = ['Рембо', 'Стрелок', 'Паша', 'Арнольд', 'Жорик', 'Михан', 'Косой', 'Лысый', 'Муха', 'Братюня',
+         'Белый', 'Жук', 'Тони', 'Боб', 'Алик', 'Сиплый', 'Шустрый', 'Майкл', 'Малек', 'Серый'
          ]
 
 
@@ -69,9 +69,10 @@ def create_person():
     list_pw = [Paladin, Person]
     for i in range(10):
         name = names[randint(0, len(names) - 1)]
-        name = list_pw[randint(0, 1)](name, randint(
+        player = f'player_{i}'
+        player = list_pw[randint(0, 1)](name, randint(
             1, 2), uniform(0.05, 0.1), uniform(0.05, 0.1))
-        list_person.append(name)
+        list_person.append(player)
         i += 1
     return list_person
 
