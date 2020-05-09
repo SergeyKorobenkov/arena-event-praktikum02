@@ -34,7 +34,7 @@ def coin_trow():  # Ранодомный выбор одно из двух
 class Thing(object):
     def __init__(self, item_name, item_armor, item_damage, item_hp):
         self.item_name = item_name
-        self.item_armor = round(item_armor, 4)
+        self.item_armor = item_armor
         self.item_damage = item_damage
         self.item_hp = item_hp
 
@@ -52,7 +52,7 @@ class Person(object):
         self.base_attack = 10
         self.base_armor = 0
 
-    # Одеваем персонажей перед боем и пересчитываем их статы
+    # Одеваем персонажа перед боем и пересчитываем его статы
     def setThings(self, things):
         self.things_set = things
         for item in self.things_set:
@@ -118,7 +118,7 @@ def armory():
 #    кол-во воинов и паладинов произвольно.
 #    Имена персонажам тоже рандомные из созданного списка 20 имен.
 
-def heroes_of_arene():
+def heroes_of_arena():
     persons_list = []
     for i in range(10):
         n = random.randint(0, len(names_list) - 1)
@@ -156,7 +156,7 @@ def one_hit(first_player, second_player):
 
 
 things_list = armory()
-persons_list = heroes_of_arene()
+persons_list = heroes_of_arena()
 prepair_for_battle(persons_list, things_list)
 
 # Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
@@ -176,7 +176,7 @@ while battle != 0:
             fight = one_hit(second_player, first_player)
 
     if len(persons_list) == 1:
-        print('Турнир окончен! Победитель ', persons_list[0].name)
+        print('Турнир окончен! Победитель: ', persons_list[0].name)
         battle = 0
     else:
         print('\n Осталось бойцов ', len(persons_list))
