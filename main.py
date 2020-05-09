@@ -24,7 +24,7 @@ names_list = [
 ]
 
 
-def coin_trow():
+def coin_trow():  # Ранодомный выбор одно из двух
     if random.random() > 0.5:
         return True
     else:
