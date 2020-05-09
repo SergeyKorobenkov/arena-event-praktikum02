@@ -25,7 +25,7 @@ names_list = [
 
 
 def coin_trow():
-    if 1 * random.random() > 0.5:
+    if random.random() > 0.5:
         return True
     else:
         return False
@@ -52,7 +52,8 @@ class Person(object):
         self.base_attack = 10
         self.base_armor = 0
 
-    def setThings(self, things):  # Одеваем персонажей перед боем
+    # Одеваем персонажей перед боем и пересчитываем их статы
+    def setThings(self, things):
         self.things_set = things
         for item in self.things_set:
             self.base_armor += item.item_armor
@@ -60,16 +61,14 @@ class Person(object):
             self.hp += item.item_hp
         self.base_armor = self.base_armor
 
-    def take_hit_is_alive(self, hit):  # Сразу считаем оставшиеся жизни
+    # Считаем урон и возаращаем False если персонаж умер
+    def take_hit_is_alive(self, hit):
         self.hp -= hit * self.base_armor
         print(f'{self.name} теряет {round(hit * self.base_armor, 4)} HP')
         if self.hp <= 0:
             # print(self.name + ' is dead! ')
             return False
         return True
-
-    def calculate_hp(self, attack_damage):
-        pass
 
     def __str__(self):
         return f'base attack: {self.base_attack},' \
@@ -99,52 +98,54 @@ class Warrior(Person):
 #  Шаг 1 - создаем произвольное количество вещей с различными параметрами,
 #  процент защиты не должен превышать 10%(0.1)
 
-item_list = []
-for i in range(1, 40 + int(20 * random.random())):
-    name = 'item-' + str(i)
-    damage = random.randint(1, 10)
-    armor = random.randrange(1, 10, 1) / 100  # не более 0.1
-    hp = random.randint(10, 60)
-    item_list.append([name, armor, damage, hp])
+def armory():
+    item_list = []
+    for i in range(1, 40 + int(20 * random.random())):
+        name = 'item-' + str(i)
+        damage = random.randint(1, 10)
+        armor = random.randrange(1, 10, 1) / 100  # не более 0.1
+        hp = random.randint(10, 60)
+        item_list.append([name, armor, damage, hp])
 
-item_list.sort(key=lambda i: i[2])
-things_list = []
-for i in item_list:
-    things_list.append(Thing(*i))
+    item_list.sort(key=lambda i: i[2])
+    things_list = []
+    for i in item_list:
+        things_list.append(Thing(*i))
+    return things_list
+
 
 #    Шаг 2 - создаем произвольно 10 персонажей,
 #    кол-во воинов и паладинов произвольно.
 #    Имена персонажам тоже рандомные из созданного списка 20 имен.
 
-persons_list = []
-for i in range(10):
-    n = random.randint(0, len(names_list) - 1)
-    name = names_list[n]
-    names_list.pop(n)
-    if coin_trow():
-        persons_list.append(Warrior(name))
-    else:
-        persons_list.append(Paladin(name))
+def heroes_of_arene():
+    persons_list = []
+    for i in range(10):
+        n = random.randint(0, len(names_list) - 1)
+        name = names_list[n]
+        names_list.pop(n)
+        if coin_trow():
+            persons_list.append(Warrior(name))
+        else:
+            persons_list.append(Paladin(name))
+    return persons_list
+
 
 # Шаг 3 - одеваем персонажей рандомными вещами.
 #    Кому-то 1, кому-то больше, но не более 4 вещей в одни руки;
 
-for person in persons_list:
-    peronal_items_set = []
-    for j in range(random.randint(1, 4)):
-        n = random.randint(0, len(things_list) - 1)
-        item = things_list[n]
-        things_list.pop(n)
-        peronal_items_set.append(item)
+def prepair_for_battle(persons_list, things_list):
+    for person in persons_list:
+        peronal_items_set = []
+        for j in range(random.randint(1, 4)):
+            n = random.randint(0, len(things_list) - 1)
+            item = things_list[n]
+            things_list.pop(n)
+            peronal_items_set.append(item)
 
-    person.setThings(peronal_items_set)
+        person.setThings(peronal_items_set)
 
-# // Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
-#  выбирается пара Нападающий и Защищающийся.
-
-battle = 1
-
-
+# Функция передачи одного удара по игроку
 def one_hit(first_player, second_player):
     print(f'{first_player.name} наносит удар по '
           f'{second_player.name} на {first_player.base_attack} урона')
@@ -153,6 +154,14 @@ def one_hit(first_player, second_player):
         persons_list.pop(persons_list.index(second_player))
         return 0
 
+
+things_list = armory()
+persons_list = heroes_of_arene()
+prepair_for_battle(persons_list, things_list)
+
+# Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
+#  выбирается пара Нападающий и Защищающийся.
+battle = 1
 
 while battle != 0:
     first_player, second_player = random.sample(persons_list, 2)
