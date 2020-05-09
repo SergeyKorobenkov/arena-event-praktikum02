@@ -170,7 +170,8 @@ while battle != 0:
                 persons_list.pop(persons_list.index(first_player))
                 fight = 0
 
-    print('\n Осталось бойцов ', len(persons_list))
     if len(persons_list) == 1:
-        print('Турнир окончен! Победитель ', persons_list[0])
+        print('Турнир окончен! Победитель ', persons_list[0].name)
         battle = 0
+    else:
+        print('\n Осталось бойцов ', len(persons_list))
