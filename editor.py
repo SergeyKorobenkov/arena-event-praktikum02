@@ -4,11 +4,18 @@ from characters import Paladin, Warrior
 from equipment import Equipment
 
 
+def create_equipments_names():
+    with open('equipments_names.txt') as file:
+        equipments_names = [line.rstrip() for line in file]
+
+    return equipments_names
+
+
 def create_different_equipment():
     equipments = []
 
     for _ in range(10):
-        name = random.choice(['dsfsd', 'dsfsf', 'sdfsdf', 'dsfsdf', 'sdfdsf'])
+        name = random.choice(create_equipments_names())
         protection = random.randint(1, 100) / 1000
         attack = random.randint(1, 100)
         hp = random.randint(1, 100)
@@ -31,7 +38,7 @@ def create_different_characters():
         name = random.choice(['вася', 'петя', 'Ира', 'лола', 'маша'])
         hp = random.randint(1, 100)
         attack = random.randint(1, 100)
-        protection = random.randint(1, 100) / 1000
+        protection = random.randint(1, 250) / 1000
 
         characters.append(character_class(
             name=name,
@@ -56,3 +63,5 @@ def equip_characters(characters, equipments):
     for character in characters:
         equipment_set = make_equipment_set(equipments)
         character.set_equipments(equipment_set)
+
+create_equipments_names()
