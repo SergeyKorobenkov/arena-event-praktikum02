@@ -13,7 +13,7 @@ class Arena:
         self.units += units
         self.Logger.Notify('packed')
 
-    def BringThings(self, things: List['Things']) -> None:
+    def BringThings(self, things: List['Thing']) -> None:
         things += self.things
         self.things = self.__things_asc_sort(things)
         self.Logger.Notify('armed')
