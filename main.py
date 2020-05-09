@@ -63,11 +63,15 @@ class Person(object):
         self.base_armor = self.base_armor
 
     # Считаем урон и возвращаем True если персонаж умер
-    def is_dead(self, hit):
+    def is_dead(self, attacker):
+        hit = attacker.base_attack
         result_hit = hit - hit * self.base_armor
+        print(f'{attacker.name} наносит удар по '
+              f'{self.name} на {round(hit, 4)} урона')
         self.hp -= result_hit
         print(f'{self.name} теряет {round(result_hit, 4)} HP')
         if self.hp <= 0:
+            attacker.kills += 1
             return True
         return False
 
@@ -147,13 +151,10 @@ def prepare_for_battle(persons_list, things_list):
         person.setThings(peronal_items_set)
 
 
-# Функция передачи одного удара по игроку
-def one_hit(first, second):
-    print(f'{first.name} наносит удар по '
-          f'{second.name} на {first.base_attack} урона')
-    if second.is_dead(first.base_attack):
+# Вынести победеного с арены
+def clean_arena(is_dead, second):
+    if is_dead:
         print(second.name + ' побежден!')
-        first.kills += 1
         persons_list.pop(persons_list.index(second))
         return False
     return True
@@ -169,15 +170,17 @@ battle = True
 
 while battle:
     first_player, second_player = random.sample(persons_list, 2)
-    print('Арена выбрала: \n', first_player, ' и \n', second_player)
+    # print('Арена выбрала: \n', first_player, '\n и \n', second_player)
     fight = True
     print(first_player.name, 'vs', second_player.name)
     print('FIGHT!!!')
     while fight:
         if coin_trow():
-            fight = one_hit(first_player, second_player)
+            fight = clean_arena(first_player.is_dead(second_player),
+                                first_player)
         else:
-            fight = one_hit(second_player, first_player)
+            fight = clean_arena(second_player.is_dead(first_player),
+                                second_player)
 
     if len(persons_list) == 1:
         print('-' * 60, '\n Турнир окончен! Победитель:', persons_list[0].name,
