@@ -52,3 +52,7 @@ def make_equipment_set(equipments):
     return equipment_set
 
 
+def equip_characters(characters, equipments):
+    for character in characters:
+        equipment_set = make_equipment_set(equipments)
+        character.set_equipments(equipment_set)
