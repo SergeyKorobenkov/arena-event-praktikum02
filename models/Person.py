@@ -35,7 +35,7 @@ class Person:
         return self.lifeState
 
     def getHP(self) -> int:
-        return self.baseHP + self.getThingsHP()
+        return self.baseHP + self.getThingsHP() - self.dmgTaken
 
     def getDef(self) -> float:
         totalDef = self.baseDef + self.getThingsDef()
@@ -51,7 +51,7 @@ class Person:
     def handleDmg(self, attacker: 'Person') -> None:
         self.dmgTaken += attacker.getDmg() - attacker.getDmg() * self.getDef()
 
-        if self.getHP() - self.dmgTaken <= 0:
+        if self.getHP() <= 0:
             self.lifeState = False
 
     def __str__(self):
