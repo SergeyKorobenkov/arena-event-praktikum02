@@ -29,8 +29,8 @@ class Person():
     def __sub__(self, attacker):
         atk_dmg = attacker.makeDamage()
         def_hp = self.hp
-        self.takeDamage(atk_dmg)
         print(make_hit_msg(attacker, self, def_hp, atk_dmg))
+        self.takeDamage(atk_dmg)
         if not HACKATONE_MODE:
             if self.def_item is not None:
                 if self.def_item.def_durability == 0:
@@ -102,6 +102,18 @@ class Warriora(Warrior):
     suffix = 'Грязная'
 
 
+class Troll(Person):
+    suffix = 'Зеленый'
+    def takeDamage(self, attack_damage: int) -> None:
+        super().takeDamage(attack_damage)
+        if self.hp > 0 and self.hp < self.base_hp:
+            self.hp *= 1.1
+            print(f'## Тролля лечится. Тролля хорошо.'
+                  f'{self.name} чувствовать себя лучше.')
+
+class Trolla(Troll):
+    suffix = 'Зеленая'
+
 namesGen = PersonNameGenerator()
 
 
@@ -110,8 +122,8 @@ def generatePersons(number):
 
     unique_name_set = set()
     classSelector = {
-        'male': [Paladin, Warrior],
-        'female': [Paladina, Warriora]
+        'male': [Paladin, Warrior, Troll],
+        'female': [Paladina, Warriora, Trolla]
         }
     for _ in range(number):
         # check unique name:
