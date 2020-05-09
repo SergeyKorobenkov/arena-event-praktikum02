@@ -14,7 +14,7 @@ def create_equipments_names():
 def create_different_equipment():
     equipments = []
 
-    for _ in range(10):
+    for _ in range(45):
         name = random.choice(create_equipments_names())
         protection = random.randint(1, 100) / 1000
         attack = random.randint(1, 100)
