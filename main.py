@@ -61,14 +61,14 @@ class Person(object):
             self.hp += item.item_hp
         self.base_armor = self.base_armor
 
-    # Считаем урон и возаращаем False если персонаж умер
-    def take_hit_is_alive(self, hit):
+    # Считаем урон и возвращаем True если персонаж умер
+    def is_dead(self, hit):
         result_hit = hit - hit * self.base_armor
         self.hp -= result_hit
         print(f'{self.name} теряет {round(result_hit, 4)} HP')
         if self.hp <= 0:
-            return False
-        return True
+            return True
+        return False
 
     def __str__(self):
         return f'base attack: {self.base_attack},' \
@@ -149,7 +149,7 @@ def prepair_for_battle(persons_list, things_list):
 def one_hit(first_player, second_player):
     print(f'{first_player.name} наносит удар по '
           f'{second_player.name} на {first_player.base_attack} урона')
-    if not second_player.take_hit_is_alive(first_player.base_attack):
+    if second_player.is_dead(first_player.base_attack):
         print(second_player.name + ' побежден!')
         persons_list.pop(persons_list.index(second_player))
         return False
