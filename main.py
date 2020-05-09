@@ -50,24 +50,19 @@ class Person(object):
         self.name = name
         self.hp = 100
         self.base_attack = 10
-        self.base_armor = 0.1
+        self.base_armor = 0
 
-    def setThings(self, things):
+    def setThings(self, things):  # Одеваем персонажей перед боем
         self.things_set = things
-        # print('\n')
-        # print(self)
-        # print('Я взял следующие предметы')
-        for i in self.things_set:
-            # print(i)
-            self.base_armor += i.item_armor
-            self.base_attack += i.item_damage
-            self.hp += i.item_hp
-        self.base_armor = round(self.base_armor, 4)
-        # print('Теперь я', self)
+        for item in self.things_set:
+            self.base_armor += item.item_armor
+            self.base_attack += item.item_damage
+            self.hp += item.item_hp
+        self.base_armor = self.base_armor
 
     def take_hit_is_alive(self, hit):  # Сразу считаем оставшиеся жизни
         self.hp -= hit * self.base_armor
-        print(f'{self.name} -{round(hit * self.base_armor, 4)} HP')
+        print(f'{self.name} теряет {round(hit * self.base_armor, 4)} HP')
         if self.hp <= 0:
             # print(self.name + ' is dead! ')
             return False
@@ -78,7 +73,8 @@ class Person(object):
 
     def __str__(self):
         return f'base attack: {self.base_attack},' \
-               f' base armor: {self.base_armor}, base hp: {round(self.hp, 4)}'
+               f' base armor: {round(self.base_armor, 4)},' \
+               f' base hp: {round(self.hp, 4)}'
 
 
 class Paladin(Person):
@@ -148,6 +144,16 @@ for person in persons_list:
 
 battle = 1
 
+
+def one_hit(first_player, second_player):
+    print(f'{first_player.name} наносит удар по '
+          f'{second_player.name} на {first_player.base_attack} урона')
+    if not second_player.take_hit_is_alive(first_player.base_attack):
+        print(second_player.name + ' побежден!')
+        persons_list.pop(persons_list.index(second_player))
+        return 0
+
+
 while battle != 0:
     first_player, second_player = random.sample(persons_list, 2)
     print('Арена выбрала: \n', first_player, ' и \n', second_player)
@@ -156,19 +162,9 @@ while battle != 0:
     print('FIGHT!!!')
     while fight != 0:
         if coin_trow():
-            print(f'{first_player.name} наносит удар по '
-                  f'{second_player.name} на {first_player.base_attack} урона')
-            if not second_player.take_hit_is_alive(first_player.base_attack):
-                print(second_player.name + ' Побежден!')
-                persons_list.pop(persons_list.index(second_player))
-                fight = 0
+            fight = one_hit(first_player, second_player)
         else:
-            print(f'{second_player.name} наносит удар по'
-                  f' {first_player.name} на {second_player.base_attack} урона')
-            if not first_player.take_hit_is_alive(second_player.base_attack):
-                print(first_player.name + ' Побежден!')
-                persons_list.pop(persons_list.index(first_player))
-                fight = 0
+            fight = one_hit(second_player, first_player)
 
     if len(persons_list) == 1:
         print('Турнир окончен! Победитель ', persons_list[0].name)
