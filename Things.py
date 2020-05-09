@@ -10,7 +10,7 @@ class Thing:
               ' was created')
 
 
-def forge_some_stuff(quantity: int):
+def forgeSomeStuff(quantity: int):
     things = []
     for i in range(1, quantity + 1):
         things.append(Thing(f'Хрень {i}'))
@@ -18,4 +18,5 @@ def forge_some_stuff(quantity: int):
 
 
 if __name__ == '__main__':
-    forge_some_stuff(10)
+    forgeSomeStuff(10)
+

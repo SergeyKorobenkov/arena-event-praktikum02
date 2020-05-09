@@ -1,4 +1,6 @@
 
+names = []
+
 class Person:
     def __init__(self,
                  hp,
@@ -8,9 +10,11 @@ class Person:
         self.base_attack = base_attack
         self.base_def_percent = base_def_percent
 
-    def get_damage(self):
+    def getDamage(self, damage):
         pass
 
+    def setThings(self, things):
+        pass
 
 class Paladin(Person):
     def __init__(self,
@@ -20,6 +24,7 @@ class Paladin(Person):
         super().__init__(hp*2, base_attack, base_def_percent*2)
         if self.hp > 100:
             self.hp = 100
+
 
 class Warrior(Person):
     def __init__(self,
