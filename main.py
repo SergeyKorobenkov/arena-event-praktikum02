@@ -51,6 +51,7 @@ class Person(object):
         self.hp = 100
         self.base_attack = 10
         self.base_armor = 0
+        self.kills = 0
 
     # Одеваем персонажа перед боем и пересчитываем его статы
     def setThings(self, things):
@@ -134,7 +135,7 @@ def heroes_of_arena():
 # Шаг 3 - одеваем персонажей рандомными вещами.
 #    Кому-то 1, кому-то больше, но не более 4 вещей в одни руки;
 
-def prepair_for_battle(persons_list, things_list):
+def prepare_for_battle(persons_list, things_list):
     for person in persons_list:
         peronal_items_set = []
         for j in range(random.randint(1, 4)):
@@ -145,19 +146,22 @@ def prepair_for_battle(persons_list, things_list):
 
         person.setThings(peronal_items_set)
 
+
 # Функция передачи одного удара по игроку
-def one_hit(first_player, second_player):
-    print(f'{first_player.name} наносит удар по '
-          f'{second_player.name} на {first_player.base_attack} урона')
-    if second_player.is_dead(first_player.base_attack):
-        print(second_player.name + ' побежден!')
-        persons_list.pop(persons_list.index(second_player))
+def one_hit(first, second):
+    print(f'{first.name} наносит удар по '
+          f'{second.name} на {first.base_attack} урона')
+    if second.is_dead(first.base_attack):
+        print(second.name + ' побежден!')
+        first.kills += 1
+        persons_list.pop(persons_list.index(second))
         return False
     return True
 
+
 things_list = armory()
 persons_list = heroes_of_arena()
-prepair_for_battle(persons_list, things_list)
+prepare_for_battle(persons_list, things_list)
 
 # Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
 #  выбирается пара Нападающий и Защищающийся.
@@ -176,7 +180,8 @@ while battle:
             fight = one_hit(second_player, first_player)
 
     if len(persons_list) == 1:
-        print('Турнир окончен! Победитель: ', persons_list[0].name)
+        print('-' * 60, '\n Турнир окончен! Победитель:', persons_list[0].name,
+              'сразил', persons_list[0].kills, 'противника')
         battle = False
     else:
         print('\n Осталось бойцов ', len(persons_list))
