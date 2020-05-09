@@ -21,3 +21,25 @@ def create_different_equipment():
         ))
 
     return equipments
+
+
+def create_different_characters():
+    characters = []
+
+    for _ in range(10):
+        character_class = random.choice([Paladin, Warrior])
+        name = random.choice(['вася', 'петя', 'Ира', 'лола', 'маша'])
+        hp = random.randint(1, 100)
+        attack = random.randint(1, 100)
+        protection = random.randint(1, 100) / 1000
+
+        characters.append(character_class(
+            name=name,
+            base_hp=hp,
+            base_attack=attack,
+            base_protection=protection
+        ))
+
+    return characters
+
+
