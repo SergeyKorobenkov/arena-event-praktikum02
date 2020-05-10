@@ -39,7 +39,7 @@ class Thing:
         self.item_hp = item_hp
 
 
-class Person(object):
+class Person:
 
     def __init__(self, name):
         self.things_set = []
