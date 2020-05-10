@@ -24,23 +24,19 @@ names_list = [
 ]
 
 
-def coin_trow():  # Ранодомный выбор одно из двух
+def coin_trow():
     if random.random() > 0.5:
         return True
     else:
         return False
 
 
-class Thing(object):
+class Thing:
     def __init__(self, item_name, item_armor, item_damage, item_hp):
         self.item_name = item_name
         self.item_armor = item_armor
         self.item_damage = item_damage
         self.item_hp = item_hp
-
-    def __str__(self):
-        return f'{self.item_name}: armor {self.item_armor},\
-         damage {self.item_damage}, hp {self.item_hp}'
 
 
 class Person(object):
@@ -63,22 +59,21 @@ class Person(object):
         self.base_armor = self.base_armor
 
     # Считаем урон и возвращаем True если персонаж умер
-    def is_dead(self, attacker):
+    def take_and_check(self, attacker):
         hit = attacker.base_attack
         result_hit = hit - hit * self.base_armor
-        print(f'{attacker.name} наносит удар по '
-              f'{self.name} на {round(hit, 4)} урона')
+        print('{} наносит удар по {} на {:.2f} урона'.format(
+            attacker.name, self.name, hit))
         self.hp -= result_hit
-        print(f'{self.name} теряет {round(result_hit, 4)} HP')
+        print('{} теряет {:.2f} HP'.format(self.name, result_hit))
         if self.hp <= 0:
             attacker.kills += 1
             return True
         return False
 
     def __str__(self):
-        return f'base attack: {self.base_attack},' \
-               f' base armor: {round(self.base_armor, 4)},' \
-               f' base hp: {round(self.hp, 4)}'
+        return 'base attack: {:.2f} armor: {:.2f)} hp: {:.2}'.format(
+            self.base_attack, self.base_armor, self.hp)
 
 
 class Paladin(Person):
@@ -88,7 +83,7 @@ class Paladin(Person):
         self.hp *= 2
 
     def __str__(self):
-        return self.name + ' paladin ' + super().__str__()
+        return '{} paladin {}'.format(self.name, super().__str__())
 
 
 class Warrior(Person):
@@ -97,7 +92,7 @@ class Warrior(Person):
         self.base_attack *= 2
 
     def __str__(self):
-        return self.name + ' warrior ' + super().__str__()
+        return '{} warrior {}'.format(self.name, super().__str__())
 
 
 #  Шаг 1 - создаем произвольное количество вещей с различными параметрами,
@@ -105,7 +100,7 @@ class Warrior(Person):
 
 def armory():
     item_list = []
-    for i in range(1, 40 + int(20 * random.random())):
+    for i in range(1, 40 + random.randint(1, 20)):
         name = 'item-' + str(i)
         damage = random.randint(1, 10)
         armor = random.randrange(1, 10, 1) / 100  # не более 0.1
@@ -114,8 +109,8 @@ def armory():
 
     item_list.sort(key=lambda i: i[2])
     things_list = []
-    for i in item_list:
-        things_list.append(Thing(*i))
+    for item in item_list:
+        things_list.append(Thing(*item))
     return things_list
 
 
@@ -137,7 +132,7 @@ def heroes_of_arena():
 
 
 # Шаг 3 - одеваем персонажей рандомными вещами.
-#    Кому-то 1, кому-то больше, но не более 4 вещей в одни руки;
+# Кому-то 1, кому-то больше, но не более 4 вещей в одни руки;
 
 def prepare_for_battle(persons_list, things_list):
     for person in persons_list:
@@ -151,40 +146,36 @@ def prepare_for_battle(persons_list, things_list):
         person.setThings(peronal_items_set)
 
 
-# Вынести победеного с арены
+things_list = armory()
+persons_list = heroes_of_arena()
+prepare_for_battle(persons_list, things_list)
+
+
+#  Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
+#  выбирается пара Нападающий и Защищающийся.
+
+# Вынести побежденного с Арены
 def clean_arena(is_dead, second):
     if is_dead:
-        print(second.name + ' побежден!')
+        print('{} побежден!\n'.format(second.name))
         persons_list.pop(persons_list.index(second))
         return False
     return True
 
 
-things_list = armory()
-persons_list = heroes_of_arena()
-prepare_for_battle(persons_list, things_list)
-
-# Шаг 4 - отправляем персонажей на арену, и в цикле в произвольном порядке
-#  выбирается пара Нападающий и Защищающийся.
-battle = True
-
-while battle:
+while len(persons_list) > 1:
     first_player, second_player = random.sample(persons_list, 2)
-    # print('Арена выбрала: \n', first_player, '\n и \n', second_player)
     fight = True
     print(first_player.name, 'vs', second_player.name)
     print('FIGHT!!!')
     while fight:
         if coin_trow():
-            fight = clean_arena(first_player.is_dead(second_player),
+            fight = clean_arena(first_player.take_and_check(second_player),
                                 first_player)
         else:
-            fight = clean_arena(second_player.is_dead(first_player),
+            fight = clean_arena(second_player.take_and_check(first_player),
                                 second_player)
+    print('Осталось бойцов ', len(persons_list))
 
-    if len(persons_list) == 1:
-        print('-' * 60, '\n Турнир окончен! Победитель:', persons_list[0].name,
-              'сразил', persons_list[0].kills, 'противника')
-        battle = False
-    else:
-        print('\n Осталось бойцов ', len(persons_list))
+print('{:-<60} \n Турнир окончен! Победитель: {} сразил {} противника'
+      .format('', persons_list[0].name, persons_list[0].kills))
