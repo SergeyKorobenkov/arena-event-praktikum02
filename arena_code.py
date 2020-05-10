@@ -45,7 +45,7 @@ class Paladin(Person):
 
 def create_items():
     item_list = []
-    for i in range (1, 101):
+    for i in range(1, 101):
         item_name = f'Item_{i}'
         item_protection = random.randint(0, 10)
         item_damage = random.randint(0, 30)
