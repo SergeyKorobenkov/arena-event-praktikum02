@@ -8,9 +8,9 @@ class Person():
         base_attack (int): persons attack.
         base_protection (int): persons protection from 0.001 to 0.25.
         equipments (list, optional): list of persons equipment.
-        hp (int, optional): persons health with equipments.
-        attack (int, optional): persons attack with equipments.
-        protection (int, optional): persons protection with equipments.
+        hp (int): persons health with equipments.
+        attack (int): persons attack with equipments.
+        protection (int): persons protection with equipments.
     '''
 
     def __init__(self, name, base_hp, base_attack, base_protection):
@@ -28,6 +28,9 @@ class Person():
         self.base_hp = base_hp
         self.base_attack = base_attack
         self.base_protection = base_protection
+        self.hp = base_hp
+        self.attack = base_attack
+        self.protection = base_protection
 
     def set_equipments(self, equipments):
         '''
@@ -73,7 +76,8 @@ class Paladin(Person):
     A class used to represent Paladin types.
 
     Attributes:
-        Same as Person class, only base_hp and base_protection double.
+        Same as Person class, only base_hp, hp and
+        base_protection, protection double.
     '''
 
     def __init__(self, name, base_hp, base_attack, base_protection):
@@ -81,23 +85,27 @@ class Paladin(Person):
         The constructor for Paladin class.
 
         Parameters:
-            Same as Person class, only base_hp and base_protection double.
+            Same as Person class, only base_hp, hp and
+            base_protection, protection double.
         '''
 
         super().__init__(name, base_hp, base_attack, base_protection)
-        self.base_hp = base_hp
-        self.set_base_protection()
+        self.base_hp *= 2
+        self.hp *= 2
+        self.set_protection()
 
-    def set_base_protection(self):
+    def set_protection(self):
         '''
-        The function doubles base_protextion attribute and sets it to 0.5
-        if its amount bigger then 0.5.
+        The function doubles base_protection and protectiom attributes and
+        sets them to 0.5 if their amount bigger then 0.5.
         '''
 
         self.base_protection *= 2
+        self.protection *= 2
 
         if self.base_protection > 0.5:
             self.base_protection = 0.5
+            self.protection = 0.5
 
 
 class Warrior(Person):
@@ -105,7 +113,7 @@ class Warrior(Person):
     A class used to represent Warrior types.
 
     Attributes:
-        Same as Person class, only base_attack doubles.
+        Same as Person class, only base_attack and attack double.
     '''
 
     def __init__(self, name, base_hp, base_attack, base_protection):
@@ -113,8 +121,9 @@ class Warrior(Person):
         The constructor for Warrior class.
 
         Parameters:
-            Same as Person class, only base_attack doubles.
+            Same as Person class, only base_attack and attack double.
         '''
 
         super().__init__(name, base_hp, base_attack, base_protection)
         self.base_attack *= 2
+        self.attack *= 2
