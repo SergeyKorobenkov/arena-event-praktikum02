@@ -57,7 +57,9 @@ class Person():
             victim (Person): object of Person class or of it's childs classes.
         '''
 
-        victim.reduction_hp(self.attack)
+        damage = victim.reduction_hp(self.attack)
+
+        return damage
 
     def reduction_hp(self, incoming_attack):
         '''
@@ -69,6 +71,8 @@ class Person():
 
         damage = incoming_attack * (1 - self.protection)
         self.hp -= damage
+
+        return damage
 
 
 class Paladin(Person):

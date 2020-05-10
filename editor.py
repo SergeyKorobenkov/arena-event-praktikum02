@@ -64,8 +64,9 @@ def create_different_characters():
     for _ in range(10):
         character_class = random.choice([Paladin, Warrior])
         name = random.choice(names)
+        names.remove(name)
         hp = random.randint(1, 100)
-        attack = random.randint(1, 20)
+        attack = random.randint(1, 30)
         protection = random.randint(1, 250) / 1000
 
         characters.append(character_class(

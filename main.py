@@ -1,9 +1,13 @@
-import random
-
 from editor import (
     create_different_characters,
     create_different_equipments,
     equip_characters,
+)
+from utils import (
+    choose_winner,
+    make_bet,
+    say_bye,
+    greet_viewers,
 )
 
 
@@ -12,21 +16,11 @@ def main():
     characters = create_different_characters()
     equip_characters(characters, equipments)
 
-    while len(characters) > 1:
-        attacking = random.choice(characters)
+    greet_viewers()
+    bet = make_bet(characters)
+    winner = choose_winner(characters)
 
-        defending_characters = characters[:]
-        defending_characters.remove(attacking)
-
-        defending = random.choice(defending_characters)
-
-        attacking.make_attack(defending)
-        print(attacking.name, 'атакует', defending.name, 'c помощью', attacking.equipments[0].name)
-
-        if defending.hp <= 0:
-            characters.remove(defending)
-
-    print(characters[0].name)
+    say_bye(winner, bet)
 
 
 if __name__ == "__main__":
