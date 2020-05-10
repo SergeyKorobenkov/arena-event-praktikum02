@@ -38,8 +38,7 @@ def make_bet(characters):
     characters_names = [character.name for character in characters]
 
     while True:
-        print('Our Heroes: ', end='')
-        print(', '.join(characters_names))
+        print(f'Our Heroes: {", ".join(characters_names)}')
         print('Who are you betting on?\n')
 
         bet = input('Enter name: ')
@@ -59,6 +58,6 @@ def say_bye(winner, bet):
     print(f'Winners equipments are: {", ".join(equipments_names)}\n')
 
     if winner.name == bet:
-        print('You guessed! You won...our congratulations!')
+        print('You guessed! You won! For this you get...our congratulations!')
     else:
         print('Too bad...your bid failed! You missed a valuable prize...')
