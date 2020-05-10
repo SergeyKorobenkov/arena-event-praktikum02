@@ -1,2 +1,13 @@
-.git/
-README.md
+.git/*
+env/
+venv/
+.venv
+.venv/
+
+__pycache__/
+*.py[cod]
+
+.idea
+.DS_Store
+.AppleDouble
+.LSOverride
