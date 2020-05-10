@@ -8,7 +8,7 @@ from editor import (
 
 
 def main():
-    equipments = create_different_equipment()
+    equipments = create_different_equipments()
     characters = create_different_characters()
     equip_characters(characters, equipments)
 

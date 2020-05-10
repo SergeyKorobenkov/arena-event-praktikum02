@@ -13,9 +13,10 @@ def create_names_from_file(filename):
 
 def create_different_equipments():
     equipments = []
+    names = create_names_from_file('equipments_names.txt')
 
     for _ in range(45):
-        name = random.choice(create_names_from_file('equipments_names.txt'))
+        name = random.choice(names)
         protection = random.randint(1, 100) / 1000
         attack = random.randint(1, 10)
         hp = random.randint(1, 100)
@@ -32,10 +33,11 @@ def create_different_equipments():
 
 def create_different_characters():
     characters = []
+    names = create_names_from_file('characters_names.txt')
 
     for _ in range(10):
         character_class = random.choice([Paladin, Warrior])
-        name = random.choice(['вася', 'петя', 'Ира', 'лола', 'маша'])
+        name = random.choice(names)
         hp = random.randint(1, 100)
         attack = random.randint(1, 100)
         protection = random.randint(1, 250) / 1000
