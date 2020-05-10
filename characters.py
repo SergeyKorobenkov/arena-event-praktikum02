@@ -81,7 +81,18 @@ class Person():
         Returns:
             (bool) True if dead, False if not.
         '''
+
         return self.hp <= 0
+
+    def get_name(self):
+        '''
+        The function wich return Persons name.
+
+        Returns:
+            (srt) Persons name.
+        '''
+
+        return self.name
 
 
 class Paladin(Person):

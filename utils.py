@@ -36,13 +36,13 @@ def choose_winner(characters):
 
         damage = attacking.make_attack(defending)
         print(
-            f'{attacking.name} attacks {defending.name} '
+            f'{attacking.get_name()} attacks {defending.get_name()} '
             f'and inflicts {damage:.2f} damage'
         )
 
-        if defending.is_dead:
+        if defending.is_dead():
             characters.remove(defending)
-            print(f'{defending.name} retires')
+            print(f'{defending.get_name()} retires')
 
         time.sleep(0.1)
 
@@ -88,7 +88,7 @@ def say_bye(winner, bet):
 
     equipments_names = [equipment.name for equipment in winner.equipments]
     print()
-    print(f'{winner.name} is winner!')
+    print(f'{winner.get_name()} is winner!')
     print(f'Winners equipments are: {", ".join(equipments_names)}\n')
 
     if winner.name == bet:
