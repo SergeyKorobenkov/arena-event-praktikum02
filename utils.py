@@ -60,7 +60,7 @@ def make_bet(characters):
         bet (str): betting name.
     '''
 
-    characters_names = [character.name for character in characters]
+    characters_names = [character.get_name() for character in characters]
 
     while True:
         print(f'Our Heroes: {", ".join(characters_names)}')
@@ -86,7 +86,7 @@ def say_bye(winner, bet):
         bet (str): users betting name
     '''
 
-    equipments_names = [equipment.name for equipment in winner.equipments]
+    equipments_names = [equipment.get_name() for equipment in winner.equipments]
     print()
     print(f'{winner.get_name()} is winner!')
     print(f'Winners equipments are: {", ".join(equipments_names)}\n')
