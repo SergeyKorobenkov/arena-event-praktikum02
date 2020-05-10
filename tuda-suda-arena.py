@@ -32,7 +32,6 @@ class Person:
         self.hp *= 1 + hp_boost
         self.attack *= 1 + attack_boost
 
-
     def attackedBy(self, other):
         damage = other.attack - other.attack*self.armor
         print(f'{other.name} наносит удар по {self.name} на {damage:.2f} урона')
@@ -43,6 +42,18 @@ class Person:
 
     def addKill(self, name):
         self.kills.append(name)
+
+    def showMe(self):
+        print(f'Name: {self.name}\n\t'
+              f'Class: {self.__class__.__name__}\n\t'
+              f'HP: {self.hp:.2f}\n\t'
+              f'Armor: {self.armor*100:.2f}%\n\t'
+              f'Attack: {self.attack:.2f}\n\tItems:')
+        for item in self.things:
+                print(f'\t\tName: {item.name}\n\t\t'
+                f'HP: +{item.hp_boost*100:.2f}%\n\t\t'
+                f'Armor: +{item.armor_boost*100:.2f}%\n\t\t'
+                f'Attack: +{item.attack_boost*100:.2f}%\n')
 
 
 class Paladin(Person):
@@ -106,9 +117,7 @@ def print_contenders(contenders, verbose = False):
             print(f'Name: {c.name}\nClass: {c.__class__.__name__}\n')
     else: 
         for c in contenders:
-            print(f'Name: {c.name}\n\tClass: {c.__class__.__name__}\n\tHP: {c.hp:.2f}\n\tArmor: {c.armor*100:.2f}%\n\tAttack: {c.attack:.2f}\n\tItems:')
-            for item in c.things:
-                print(f'\t\tName: {item.name}\n\t\tHP: +{item.hp_boost*100:.2f}%\n\t\tArmor: +{item.armor_boost*100:.2f}%\n\t\tAttack: +{item.attack_boost*100:.2f}%\n')
+            c.showMe()
 
 
 def battle_loop(contenders):
