@@ -71,7 +71,7 @@ class Warrior(Person):
 class Arena:
     def __init__(self, name_pool):
         self.items = self.items_setup()
-        self.contenders = self.contenders_setup(name_pool, self.items)
+        self.contenders = self.contenders_setup(name_pool)
 
     def items_setup(self):
         items = []
@@ -86,9 +86,8 @@ class Arena:
 
         return items
 
-    def contenders_setup(self, name_pool, items):
+    def contenders_setup(self, name_pool):
         contenders = []
-        items = self.items_setup()
         for _ in range(10):
             name = random.choice(name_pool)
             name_pool.remove(name)
@@ -100,9 +99,9 @@ class Arena:
 
             contender_items = []
             for i in range(random.randint(1, 4)):
-                new_item = random.choice(items)
+                new_item = random.choice(self.items)
                 contender_items.append(new_item)
-                items.remove(new_item)
+                self.items.remove(new_item)
 
             contender.setThings(contender_items)
             contenders.append(contender)
