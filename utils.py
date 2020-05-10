@@ -40,7 +40,7 @@ def choose_winner(characters):
             f'and inflicts {damage:.2f} damage'
         )
 
-        if defending.hp <= 0:
+        if defending.is_dead:
             characters.remove(defending)
             print(f'{defending.name} retires')
 

@@ -74,6 +74,15 @@ class Person():
 
         return damage
 
+    def is_dead(self):
+        '''
+        The function wich defines Persons death.
+
+        Returns:
+            (bool) True if dead, False if not.
+        '''
+        return self.hp <= 0
+
 
 class Paladin(Person):
     '''
