@@ -58,7 +58,6 @@ class Person:
             item_three_four = choice(things['weapon'])
             self.hp += item_three_four.hp
             self.dmg += item_three_four.dmg
-            self.df += item_three_four.df
             things['weapon'].remove(item_three_four)
             print(f'\t{item_three_four.name}')
             cnt += 1
