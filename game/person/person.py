@@ -60,3 +60,6 @@ class Person(ABC):
         for thing in self.get_things():
             thing_protection += thing.protect
         self.hp -= int(attack_damage - attack_damage * ((self.protect+thing_protection)*100))
+
+    def __repr__(self):
+        return f"{self.name}({self.__class__.__name__}), protect: {self.protect}, damage: {self.damage}, hit points: {self.hp}"

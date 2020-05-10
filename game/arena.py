@@ -5,6 +5,7 @@ from game.person import Warrior
 from game.person import Paladin
 import random
 import time
+import copy
 
 
 class Arena:
@@ -36,7 +37,7 @@ class Arena:
                 damage=random.randrange(0, 100),
                 hp=random.randrange(0, 500)
             )
-            self._things.append(thing)
+            self._things.append(copy.deepcopy(thing))
 
     def get_participants(self):
         return self._participants
@@ -62,7 +63,7 @@ class Arena:
             "Hell Talon", "Lightsorrow"
         ]
         for i in range(10):
-            choose = random.randrange(1)
+            choose = random.randrange(2)
             if choose == 0:
                 person = Warrior(
                     name=random.choice(names),
@@ -87,8 +88,11 @@ class Arena:
             defender.reduce_hp(attacker.get_damage())
             self._participants.append(attacker)
 
-            print(f"{attacker.name} damage {attacker.get_damage()} to {defender.name}")
+            print(f"{attacker.name} damaged {attacker.get_damage()} to {defender.name}")
             time.sleep(2)
 
             if defender.hp > 0:
                 self._participants.append(defender)
+
+        winner = self._participants.pop()
+        print(f"{winner.name} win!!!")
