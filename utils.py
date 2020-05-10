@@ -3,6 +3,11 @@ import time
 
 
 def greet_viewers():
+    '''
+    The function print greeting message. You can write any text
+    in 'greeting' variable
+    '''
+
     greeting = ('Quarantine began and the last packaging of\n'
                 'toilet paper remained in the supermarket.\n'
                 'Who will get it? Make bets, Ladies and Gentlemen!\n')
@@ -11,6 +16,16 @@ def greet_viewers():
 
 
 def choose_winner(characters):
+    '''
+    The function chooses winner from lust of characters.
+
+    Parameters:
+        characters (list): list of Paladin or Warrior objects.
+
+    Returns:
+        characters[0] (Paladin or Warrior): Paladin or Warrior object winner
+    '''
+
     while len(characters) > 1:
         attacking = random.choice(characters)
 
@@ -35,6 +50,16 @@ def choose_winner(characters):
 
 
 def make_bet(characters):
+    '''
+    The function returns betting name.
+
+    Parameters:
+        characters (list): list of Paladin or Warrior objects.
+
+    Returns:
+        bet (str): betting name.
+    '''
+
     characters_names = [character.name for character in characters]
 
     while True:
@@ -52,6 +77,15 @@ def make_bet(characters):
 
 
 def say_bye(winner, bet):
+    '''
+    The function print info about winner and informs user passed his
+    bet or not.
+
+    Parameters:
+        winner (Paladin or Warrior): Paladin or Warrior object who won
+        bet (str): users betting name
+    '''
+
     equipments_names = [equipment.name for equipment in winner.equipments]
     print()
     print(f'{winner.name} is winner!')
@@ -60,4 +94,4 @@ def say_bye(winner, bet):
     if winner.name == bet:
         print('You guessed! You won! For this you get...our congratulations!')
     else:
-        print('Too bad...your bid failed! You missed a valuable prize...')
+        print('Too bad, your bid failed! You missed a valuable prize...')
