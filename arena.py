@@ -115,8 +115,19 @@ class Arena:
 
 if __name__ == "__main__":
     pers_list = [random.choice([Generator.generate_pers(Paladin), Generator.generate_pers(Warrior)]) for _ in range(10)]
+    print('              Battle Participants')
+    print('')
+    print(' Class  |    Name      |  Df   |  Attack | Health ')
+    print('---------------------------------------------------')
+    for i in pers_list:
+        print('{: <7} | {: <12} | {: ^5.2f} | {: ^7.2f} | {: ^5.2f}'.format(i.__class__.__name__, i.name, i.base_df,
+                                                                            i.base_attack, i.base_health))
+    print('')
     battle_arena = Arena(pers_list)
     battle_arena.wear_pers()
     while len(battle_arena.perses) > 1:
         battle_arena.battle()
-    print(f'Winner: {battle_arena.perses[0].name}')
+    print('')
+    print('* * *    * * *    * * *')
+    print(' \|/      \|/      \|/')
+    print(f'*** Winner: {battle_arena.perses[0].name} ***')
