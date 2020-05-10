@@ -16,6 +16,9 @@ def forgeSomeStuff(quantity: int):
     things = []
     for i in range(1, quantity + 1):
         things.append(Thing(f'Предмет {i}'))
+
+    things.sort(key=operator.attrgetter('def_percent'))
+
     return things
 
 

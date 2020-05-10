@@ -5,6 +5,7 @@ if __name__ == '__main__':
     persons = create_persons()
     #Базовый набор, каждому по 1му предмету
     base_kit = forgeSomeStuff(10)
+
     for i in range(0, len(persons)):
         persons[i].setThings([base_kit[i]])
         persons[i].setThings(forgeSomeStuff(randint(1,3)))
