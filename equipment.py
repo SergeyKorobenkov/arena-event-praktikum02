@@ -19,17 +19,18 @@ class Equipment():
             attack (int): equipment attack.
             hp (int): equipment hp.
         '''
+
         self.name = name
         self.protection = protection
         self.attack = attack
         self.hp = hp
 
     def get_name(self):
-    '''
-    The function wich return Equipment name.
+        '''
+        The function wich return Equipment name.
 
-    Returns:
-        (srt) Equipment name.
-    '''
+        Returns:
+            (srt) Equipment name.
+        '''
 
-    return self.name
+        return self.name

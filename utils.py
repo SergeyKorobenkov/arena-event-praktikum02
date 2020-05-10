@@ -15,9 +15,31 @@ def greet_viewers():
     print(greeting)
 
 
+def choose_fighters(characters):
+    '''
+    The function chooses fighters from list of characters.
+
+    Parameters:
+        characters (list): list of Paladin or Warrior objects.
+
+    Returns:
+        attacker (Paladin or Warrior): Paladin or Warrior object winner
+        defending (Paladin or Warrior): Paladin or Warrior object winner
+    '''
+
+    attacking = random.choice(characters)
+
+    defending_characters = characters[:]
+    defending_characters.remove(attacking)
+
+    defending = random.choice(defending_characters)
+
+    return attacking, defending
+
+
 def choose_winner(characters):
     '''
-    The function chooses winner from lust of characters.
+    The function chooses winner from list of characters.
 
     Parameters:
         characters (list): list of Paladin or Warrior objects.
@@ -27,12 +49,7 @@ def choose_winner(characters):
     '''
 
     while len(characters) > 1:
-        attacking = random.choice(characters)
-
-        defending_characters = characters[:]
-        defending_characters.remove(attacking)
-
-        defending = random.choice(defending_characters)
+        attacking, defending = choose_fighters(characters)
 
         damage = attacking.make_attack(defending)
         print(
@@ -86,7 +103,8 @@ def say_bye(winner, bet):
         bet (str): users betting name
     '''
 
-    equipments_names = [equipment.get_name() for equipment in winner.equipments]
+    equipments_names = [equipment.get_name() for equipment
+                        in winner.equipments]
     print()
     print(f'{winner.get_name()} is winner!')
     print(f'Winners equipments are: {", ".join(equipments_names)}\n')
