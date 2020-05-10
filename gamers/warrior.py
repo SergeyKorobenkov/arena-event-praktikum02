@@ -77,11 +77,6 @@ class Thing:
     Одежда: название, процент защиты, атака и жизнь.
     """
 
-    title = None
-    armor = None
-    attack = None
-    life = None
-
     def __init__(self, *, title: str, life: float,
                  attack: float, armor: float):
         self.title = title
