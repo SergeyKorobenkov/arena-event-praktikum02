@@ -15,8 +15,8 @@ def create_names_from_file(filename):
         names (list): list of names.
     '''
 
-    with open(filename) as file:
-        names = [line.rstrip() for line in file]
+    with open(filename) as f:
+        names = [line.rstrip() for line in f]
 
     return names
 
