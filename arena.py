@@ -31,7 +31,7 @@ class Person:
     def setThings(self, things):
         self.things = things
         for j in self.things:
-            self.HitPoints +=  (self.hp * j.hp)
+            self.HitPoints += (self.hp * j.hp)
             self.attack_damage += (self.attack_damage * j.attack)
             self.finalProtection = self.protection_person + j.protection
 
@@ -88,7 +88,9 @@ def main():
 
     print(f'Список участников:')
     for i in list_person:
-        print(f'Участник {i.name} здоровье - {i.HitPoints:.2f}, защита - {(i.finalProtection * 100):.2f} %, атака - {i.attack_damage:.2f}') 
+        print(f'Участник {i.name} здоровье - {i.HitPoints: .2f}, защита - '
+              f'{(i.finalProtection * 100): .2f} % , '
+              f'атака - {i.attack_damage:.2f}')
 
     while len(list_person) > 1:
         attack = list_person[randint(0, len(list_person)-1)]
