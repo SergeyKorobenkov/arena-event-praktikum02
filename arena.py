@@ -54,32 +54,37 @@ class Warrior(Person):
         self.attack_damage *= 2
 
 
-def create_person():
-    list_person = []
-    list_pw = [Paladin, Person]
-    for i in range(10):
-        name = names[randint(0, len(names) - 1)]
-        player = f'player_{i}'
-        player = choice(list_pw)(name, randint(
-            1, 2), uniform(0.05, 0.1), uniform(0.05, 0.1))
-        list_person.append(player)
-        i += 1
-    return list_person
+class Create_list():
+    def __init__(self, number=10):
+        self.number = number
 
+    def create_person(self, paladin, warrior):
+        self.list_person = []
+        list_pw = [paladin, warrior]
+        for i in range(self.number):
+            name = names[randint(0, len(names) - 1)]
+            player = f'player_{i}'
+            player = choice(list_pw)(name, randint(
+                1, 2), uniform(0.05, 0.1), uniform(0.05, 0.1))
+            self.list_person.append(player)
+            i += 1
+        return self.list_person
 
-def create_things():
-    things = []
-    for i in range(randint(1, 4)):
-        thing = f'thing_{i}'
-        thing = Thing(choice(name_thing))
-        things.append(thing)
-    return things
+    def create_things(self, Thing):
+        self.things = []
+        for i in range(randint(1, 4)):
+            thing = f'thing_{i}'
+            thing = Thing(choice(name_thing))
+            self.things.append(thing)
+        return(self.things)
 
 
 def main():
-    list_person = create_person()
+    lists = Create_list()
+    list_person = lists.create_person(Paladin, Warrior)
+    list_things = lists.create_things(Thing)
     for person in list_person:
-        person.setThings(create_things())
+        person.setThings(list_things)
     while len(list_person) > 1:
         attack = list_person[randint(0, len(list_person)-1)]
         protection = list_person[randint(0, len(list_person) - 1)]

@@ -15,5 +15,5 @@ __pycache__/
 *.sublime-project
 *.sublime-workspace
 drafts.py
-.vscode/settings.json
+.vscode/
 
