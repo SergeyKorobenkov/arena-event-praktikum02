@@ -14,6 +14,7 @@ class Person:
         self.attack = base_attack
         self.armor = base_armor
         self.kills = []
+        self.iswinner = False
 
     def setThings(self, things):
         self.things = things
@@ -71,7 +72,7 @@ class Warrior(Person):
 class Arena:
     def __init__(self, name_pool):
         self.items = self.items_setup()
-        self.contenders = self.contenders_setup(name_pool, self.items)
+        self.contenders = self.contenders_setup(name_pool)
 
     def items_setup(self):
         items = []
@@ -86,9 +87,8 @@ class Arena:
 
         return items
 
-    def contenders_setup(self, name_pool, items):
+    def contenders_setup(self, name_pool):
         contenders = []
-        items = self.items_setup()
         for _ in range(10):
             name = random.choice(name_pool)
             name_pool.remove(name)
@@ -100,9 +100,9 @@ class Arena:
 
             contender_items = []
             for i in range(random.randint(1, 4)):
-                new_item = random.choice(items)
+                new_item = random.choice(self.items)
                 contender_items.append(new_item)
-                items.remove(new_item)
+                self.items.remove(new_item)
 
             contender.setThings(contender_items)
             contenders.append(contender)
@@ -128,6 +128,7 @@ class Arena:
 
         print(f'\nБитва завершилась в {round_counter} раундов')
         print('Победитель:')
+        remaining[0].iswinner = True
         remaining[0].showMe()
 
     def print_contenders(self, verbose = False):
@@ -141,10 +142,10 @@ class Arena:
     def print_scoreboard(self):
         sorted_contenders = sorted(self.contenders, key=lambda c: len(c.kills), reverse=True)
         print('-------------РЕЗУЛЬТАТЫ-------------')
-        print('       Имя        |Убийства|  Жертвы')
+        print('         Имя          |Убийства|  Жертвы')
         print('------------------------------------')
         for c in sorted_contenders:
-            print(f'{c.name:18}|{len(c.kills):7} | {", ".join(c.kills)}')
+            print(f'{f"**{c.name}**" if c.iswinner else c.name:22}|{len(c.kills):7} | {", ".join(c.kills)}')
 
 
 def normalize(value, scale_min, scale_max, range_min = 0.2, range_max = 2.5):
