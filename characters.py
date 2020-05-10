@@ -55,6 +55,9 @@ class Person():
 
         Parametrs:
             victim (Person): object of Person class or of it's childs classes.
+
+        Returns:
+            damage (int): finally inflicted damage.
         '''
 
         damage = victim.reduction_hp(self.attack)
@@ -67,6 +70,9 @@ class Person():
 
         Parametrs:
             incoming_attack (int): amount of incoming attack.
+
+        Returns:
+            damage (int): finally received damage.
         '''
 
         damage = incoming_attack * (1 - self.protection)
