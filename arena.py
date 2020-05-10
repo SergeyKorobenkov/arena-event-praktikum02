@@ -11,7 +11,7 @@ name_thing = ['shoes', 'jacket', 'shield', 'gloves',
 
 class Thing:
     def __init__(self, name,  protection=uniform(0.05, 0.1),
-                 attack=uniform(0.01, 0.1), hp=randint(1, 2)):
+                 attack=uniform(0.01, 0.1), hp=uniform(0.05, 0.1)):
         self.name = name
         self.protection = protection
         self.attack = attack
@@ -26,18 +26,17 @@ class Person:
         self.attack_damage = attack_damage
         self.protection_person = protection_person
         self.finalProtection = 0
-        self.HitPoints = 0
+        self.HitPoints = self.hp
 
     def setThings(self, things):
         self.things = things
         for j in self.things:
-            self.HitPoints += self.hp + (self.hp * j.hp)
+            self.HitPoints +=  (self.hp * j.hp)
             self.attack_damage += (self.attack_damage * j.attack)
-            self.finalProtection = self.protection_person + \
-                (self.protection_person * j.protection)
+            self.finalProtection = self.protection_person + j.protection
 
     def attack(self, attack):
-        self.damage = attack - attack*self.finalProtection
+        self.damage = attack - attack * self.finalProtection
         self.HitPoints -= (self.damage - self.damage*self.finalProtection)
 
 
@@ -65,7 +64,7 @@ class Create_list():
             name = names[randint(0, len(names) - 1)]
             player = f'player_{i}'
             player = choice(list_pw)(name, randint(
-                1, 2), uniform(0.05, 0.1), uniform(0.05, 0.1))
+                30, 49), uniform(1.1, 10.3), uniform(0.01, 0.1))
             self.list_person.append(player)
             i += 1
         return self.list_person
@@ -83,8 +82,14 @@ def main():
     lists = Create_list()
     list_person = lists.create_person(Paladin, Warrior)
     list_things = lists.create_things(Thing)
+
     for person in list_person:
         person.setThings(list_things)
+
+    print(f'Список участников:')
+    for i in list_person:
+        print(f'Участник {i.name} здоровье - {i.HitPoints:.2f}, защита - {(i.finalProtection * 100):.2f} %, атака - {i.attack_damage:.2f}') 
+
     while len(list_person) > 1:
         attack = list_person[randint(0, len(list_person)-1)]
         protection = list_person[randint(0, len(list_person) - 1)]
