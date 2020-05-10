@@ -1,28 +1,19 @@
 import pytest
 from game.person import Paladin
+from game.thing import Thing
 
 
-class TestWarrior:
+class TestPalading:
     @pytest.mark.parametrize("kwargs", [
         {'name': 'Khonan', 'protect': 0.1, 'damage': 25, 'hp': 40}
     ])
     def test_init(self, kwargs):
         """Test of object initialisation"""
         paladin = Paladin(**kwargs)
-        assert hasattr(paladin, 'name'), f"Attribute _name doesn't exist"
-        assert hasattr(paladin, 'protect'), f"Attribute _protect doesn't exist"
-        assert hasattr(paladin, 'damage'), f"Attribute _damage doesn't exist"
-        assert hasattr(paladin, 'hp'), f"Attribute _hp doesn't exist"
-
-        """Testing that all Attributes only read"""
-        with pytest.raises(AttributeError):
-            paladin.name = 'Update name'
-        with pytest.raises(AttributeError):
-            paladin.protect = 0.05
-        with pytest.raises(AttributeError):
-            paladin.damage = 60
-        with pytest.raises(AttributeError):
-            paladin.hp = 150
+        assert hasattr(paladin, 'name'), f"Attribute name doesn't exist"
+        assert hasattr(paladin, 'protect'), f"Attribute protect doesn't exist"
+        assert hasattr(paladin, 'damage'), f"Attribute damage doesn't exist"
+        assert hasattr(paladin, 'hp'), f"Attribute hp doesn't exist"
 
     @pytest.mark.parametrize("kwargs", [{'name': 123, 'protect': 0.1, 'damage': 25, 'hp': 40}])
     def test_init_name_incorrect(self, kwargs):
@@ -70,4 +61,18 @@ class TestWarrior:
         """Testing incorrect values of hp param"""
         with pytest.raises(TypeError):
             paladin = Paladin(**kwargs)
+
+    @pytest.mark.parametrize("kwargs", [
+        {'name': 'Khonan', 'protect': 0.1, 'damage': 25, 'hp': 40},
+    ])
+    def test_set_things(self, kwargs):
+        paladin = Paladin(**kwargs)
+        things = [Thing('Sword', 0.0, 50, 0), Thing('Armor', 0.1, 0, 100)]
+        paladin.set_things(things)
+        result = paladin.get_things()
+        for thing in result:
+            assert thing in things
+
+
+
 

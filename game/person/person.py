@@ -12,12 +12,12 @@ from game.descriptors import (
 class Person(ABC):
     """Provide base functionality to other classes of person
     """
-    _name = NameValid()
-    _protect = ProtectValid()
-    _damage = DamageValid()
-    _hp = HpValid()
+    name = NameValid()
+    protect = ProtectValid()
+    damage = DamageValid()
+    hp = HpValid()
 
-    def __init__(self, name, hp, damage, protect):
+    def __init__(self, name, protect, damage, hp):
         """Class constructor
 
         Args:
@@ -27,26 +27,36 @@ class Person(ABC):
             protect: base protect of person
         """
 
-        self._name = name
-        self._hp = hp
-        self._damage = damage
-        self._protect = protect
+        self.name = name
+        self.protect = protect
+        self.damage = damage
+        self.hp = hp
+        self._things = []
 
-    def set_things(self):
-        pass
+    def set_things(self, things):
+        """Adding list of things to current person
 
-    @property
-    def name(self):
-        return self._name
+        Args:
+            things (list<Thing>): list of Thing objects
+        """
+        self._things = things
 
-    @property
-    def protect(self):
-        return self._protect
+    def get_things(self):
+        """Getting list of things from current person
 
-    @property
-    def damage(self):
-        return self._damage
+        Returns:
+            things (list<Thing>): list of Thing objects
+        """
+        return self._things
 
-    @property
-    def hp(self):
-        return self._hp
+    def get_damage(self):
+        thing_damage = 0.0
+        for thing in self.get_things():
+            thing_damage += thing.damage
+        return self.damage + thing_damage
+
+    def reduce_hp(self, attack_damage):
+        thing_protection = 0.0
+        for thing in self.get_things():
+            thing_protection += thing.protect
+        self.hp -= int(attack_damage - attack_damage * ((self.protect+thing_protection)*100))

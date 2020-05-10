@@ -6,6 +6,6 @@ from game.person.person import Person
 class Warrior(Person):
     """Class provide functionality of Warrior class"""
 
-    def __init__(self, name, hp, damage, protect):
+    def __init__(self, name, protect, damage, hp):
         damage *= 2
-        super().__init__(name, hp, damage, protect)
+        super().__init__(name, protect, damage, hp)

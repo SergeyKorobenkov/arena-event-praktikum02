@@ -9,20 +9,10 @@ class TestThing:
     def test_init(self, kwargs):
         """Test of object initialisation"""
         thing = Thing(**kwargs)
-        assert hasattr(thing, 'name'), f"Attribute _name doesn't exist"
-        assert hasattr(thing, 'protect'), f"Attribute _protect doesn't exist"
-        assert hasattr(thing, 'damage'), f"Attribute _damage doesn't exist"
-        assert hasattr(thing, 'hp'), f"Attribute _hp doesn't exist"
-
-        """Testing that all Attributes only read"""
-        with pytest.raises(AttributeError):
-            thing.name = 'Update name'
-        with pytest.raises(AttributeError):
-            thing.protect = 0.05
-        with pytest.raises(AttributeError):
-            thing.damage = 60
-        with pytest.raises(AttributeError):
-            thing.hp = 150
+        assert hasattr(thing, 'name'), f"Attribute name doesn't exist"
+        assert hasattr(thing, 'protect'), f"Attribute protect doesn't exist"
+        assert hasattr(thing, 'damage'), f"Attribute damage doesn't exist"
+        assert hasattr(thing, 'hp'), f"Attribute hp doesn't exist"
 
     @pytest.mark.parametrize("kwargs", [{'name': 123, 'protect': 0.1, 'damage': 25, 'hp': 40}])
     def test_init_name_incorrect(self, kwargs):
