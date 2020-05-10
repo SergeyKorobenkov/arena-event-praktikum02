@@ -4,7 +4,7 @@ from game.thing import Thing
 from game.person import Warrior
 from game.person import Paladin
 import random
-import copy
+import time
 
 
 class Arena:
@@ -46,12 +46,6 @@ class Arena:
         arena = cls()
         arena.generate_things()
         arena.generate_persons()
-
-        for person in arena.get_participants():
-            print(person.name)
-            for thing in person.get_things():
-                print(thing.name)
-
         return arena
 
     def generate_persons(self):
@@ -60,7 +54,7 @@ class Arena:
         Returns:
             things (list): list of things object
         """
-        persons = []
+
         names = [
             "The Blade", "Wildstare", "Silentmight", "Shieldhammer", "The Shadow", "The Vermin",
             "The Phantom", "The Hollow", "Frost Mane", "Rockgrip", "The Nightowl", "Ember Hammer",
@@ -74,7 +68,7 @@ class Arena:
                     name=random.choice(names),
                     protect=round(random.uniform(0, 1) / 10, 2),
                     damage=random.randrange(0, 100),
-                    hp=random.randrange(0, 500)
+                    hp=random.randrange(1500, 2500)
                 )
             else:
                 person = Paladin(
@@ -94,6 +88,7 @@ class Arena:
             self._participants.append(attacker)
 
             print(f"{attacker.name} damage {attacker.get_damage()} to {defender.name}")
+            time.sleep(2)
 
             if defender.hp > 0:
                 self._participants.append(defender)
