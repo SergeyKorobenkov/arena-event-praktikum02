@@ -154,7 +154,7 @@ class Arena:
                     'С прискорбием сообщаю Вам', f'Для {attack.name} было '
                                                  f'легко сделать всё'
                                                  f'возможное, чтобы']
-            print(f'{text[randint(0, len(text))]} {defencive.name} '
+            print(f'{text[randint(0, len(text))-1]} {defencive.name} '
                   f'был повержен.')
             self.fighters.remove(defencive)
 
