@@ -1,112 +1,103 @@
-from data import sorted_things, sorted_persons
 import random
 
-class Things:
-    def __init__(self, name, protection, attack, life):
+
+class Thing:
+    def __init__(self, name, defence, damage, HP):
         self.name = name
-        self.protection = protection
-        self.attack = attack
-        self.life = life
-        # print(f"Создан новый артефакт {name}")
-
-
-
-    # def show(self):
-        # print(f"Название: {self.name}, Процент защиты: {self.protection}, атака: {self.attack}, жизнь: {self.life}")
+        self.defence = defence
+        self.damage = damage
+        self.HP = HP
 
 
 class Person:
-    def __init__(self, name, lives, attack, protection):
+    def __init__(self, name, HP, damage, defence):
         self.name = name
-        self.lives = lives
-        self.protection = protection
-        self.thingsList = self.setThings()
-        self.attack = attack
-        # print(f"Создан новый персонаж {name}")
-        # print(self.thingsList)
-
-    def setThings(self):
-        for things in sorted_things:
-            list_things = list(sorted_things.keys())
-            quantity = random.randint(1, 4)
-            # global random_things
-            random_things = random.sample(list_things, quantity)
-        return random_things
-
-# armour = Things(name='Броня', protection='0.2', attack='0.03', life='0.33')
-
-    def things_value(self):
-        attack_sum = self.attack
-        for thing in self.thingsList:
-            # for item in thing:
-                # if item.keys() is not 'name':
-            attack_sum = attack_sum + float(thing.attack)
-        return attack_sum
-
-
-
-    # def show(self):
-        # print(f'Имя: {self.name}, количество жизней: {self.lives}, базовая атака: {self.attack}, базовый процент защиты: {self.protection}')
-
+        self.defence = defence
+        self.damage = damage
+        self.HP = HP
 
 
 class Paladin(Person):
-   def __init__(self, name, lives, attack, protection):
-       lives = int(lives) * 2
-       protection = float(protection) * 2
-       Person.__init__(self, name, lives, attack, protection)
-
+    def __init__(self, name, HP, damage, defence):
+        HP = HP * 2
+        damage = damage * 2
+        Person.__init__(self, name, HP, damage, defence)
 
 
 class Warrior(Person):
-   def __init__(self, name, lives, attack, protection):
-    #    attack = float(attack) * 2 + 
-       Person.__init__(self, name, lives, attack, protection)
-
-bear = Warrior(name='Медведь', lives=3, attack='0.3', protection='0.32')
-print(bear.things_value())
-print(bear.attack)
+    def __init__(self, name, HP, damage, defence):
+        defence = defence * 2
+        Person.__init__(self, name, HP, damage, defence)
 
 
-# class Game(Things, Person):
+class Game:
+    def __init__(self):
+        self.person_records = []
+        self.thing_records = []
 
-#     def setPerson():
-#         global random_persons
-#         random_persons=[]
-#         for person in sorted_persons:
-#             list_persons = list(sorted_persons.keys())
-#             random_persons = random.sample(list_persons, 2)
-#             return random_persons
+    def add_person_record(self, record):
+        self.person_records.append(record)
+
+    def add_thing_record(self, record):
+        self.thing_records.append(record)
+
+    def setThings(self):
+        n = 0
+        for person in self.person_records:
+            quantity = random.randint(1, 4)
+            random_things = random.sample(self.thing_records, quantity)
+            sum_defence = 0
+            sum_HP = 0
+            sum_damage = 0
+            for thing in random_things:
+                sum_defence = sum_defence + thing.defence
+                sum_HP = sum_HP + thing.HP
+                sum_damage = sum_damage + thing.damage
+            self.person_records[n].defence = self.person_records[n].defence + sum_defence
+            self.person_records[n].HP = self.person_records[n].HP + sum_HP
+            self.person_records[n].damage = self.person_records[n].damage + sum_damage
+            n += 1
+
+    def setPerson(self):
+        random_persons = random.sample(self.person_records, 2)
+        attacker_index = random.randint(0, 1)
+        defender_index = abs(attacker_index - 1)
+        print(
+            f'Начинается рауд игрока {random_persons[attacker_index].name} против игрока {random_persons[defender_index].name}')
+        while random_persons[defender_index].HP > 0 and random_persons[attacker_index].HP > 0:
+            damage_amount = round(
+                (random_persons[attacker_index].damage - random_persons[attacker_index].damage * random_persons[defender_index].defence), 2)
+            random_persons[defender_index].HP = round(
+                (random_persons[defender_index].HP - damage_amount), 2)
+            print(
+                f'{random_persons[attacker_index].name} наносит удар по игроку {random_persons[defender_index].name} на {damage_amount} урона')
+            attacker_index = defender_index
+            defender_index = abs(attacker_index - 1)
+        print(f"{random_persons[attacker_index].name} Выбывает из игры")
+        self.person_records.remove(random_persons[attacker_index])
+
+    def battle(self):
+        while len(self.person_records) > 1:
+            game.setPerson()
+        print(f"{self.person_records[0].name} Побеждает всех!")
 
 
-#     def give_things_to_person():
-#         pass
+game = Game()
+game.add_thing_record(Thing(name='Молот', defence=0.02, damage=0.02, HP=0.13))
+game.add_thing_record(Thing(name='Броня', defence=0.01, damage=0.03, HP=0.31))
+game.add_thing_record(Thing(name='Шляпа', defence=0.03, damage=0.04, HP=0.21))
+game.add_thing_record(Thing(name='Меч', defence=0.04, damage=0.02, HP=0.12))
+game.add_thing_record(Thing(name='Шлем', defence=0.06, damage=0.01, HP=0.30))
+game.add_person_record(Warrior(name='Лошадь', HP=5, damage=0.04, defence=0.25))
+game.add_person_record(Warrior(name='Морж', HP=5, damage=0.02, defence=0.31))
+game.add_person_record(Warrior(name='Кролик', HP=3, damage=0.01, defence=0.21))
+game.add_person_record(Warrior(name='Сова', HP=2, damage=0.02, defence=0.27))
+game.add_person_record(Warrior(name='Лиса', HP=2, damage=0.05, defence=0.41))
+game.add_person_record(Paladin(name='Медведь', HP=3, damage=0.3, defence=0.32))
+game.add_person_record(Paladin(name='Тигр', HP=5, damage=0.06, defence=0.11))
+game.add_person_record(Paladin(name='Змея', HP=2, damage=0.02, defence=0.31))
+game.add_person_record(Paladin(name='Лев', HP=6, damage=0.03, defence=0.01))
+game.add_person_record(Paladin(name='Акула', HP=4, damage=0.03, defence=0.12))
 
-    # role = ['Attacker', 'Defender']
-    # role_random = random.choice(role)
-    # if role_random == 'Defender':
-    #     def attack_damage:
-    #         pass
 
-
-
-# armour = Things(name='Броня', protection='0.2', attack='0.03', life='0.33')
-# bear = Warrior(name='Медведь', lives=3, attack='0.3', protection='0.32')
-# horse = Paladin(name='Лошадь', lives=4, attack='0.11', protection='0.25')
-# tiger = Warrior(name='Тигр', lives=5, attack='0.16', protection='0.11')
-# monkey = Paladin(name='Обезьяна', lives=5, attack='0.61', protection='0.41')
-# rabbit= Paladin(name='Кролик', lives=4, attack='0.31', protection='0.41')
-# snake = Warrior(name='Змея', lives=6, attack='0.22', protection='0.31')
-# hat = Things(name='Шляпа', protection='0.3', attack='0.03', life='0.33')
-# snikers = Things(name='Сникерс', protection='0.3', attack='0.02', life='0.43')
-# armour = Things(name='Броня', protection='0.2', attack='0.03', life='0.33')
-# armour.show()
-# bear.show()
-# horse.show()
-# tiger.show()
-# monkey.show()
-# rabbit.show()
-# snake.show()
-# hat.show()
-# snikers.show()
-
+game.battle()
