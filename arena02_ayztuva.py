@@ -28,6 +28,11 @@ class Person:
         print(self.name)
 
     def set_things(self, things):
+        # Сохраняем первоначальные показатели
+        original_hp = self.hp
+        original_dmg = self.dmg
+        original_df = self.df
+
         # Подбрасываем монетку четыре раза на каждый тип шмотки
         print(f'{self.name} получает:')
         cnt = 0
@@ -61,6 +66,10 @@ class Person:
         if cnt == 0:
             print('Кукиш с маслом.')
 
+        print('\t\tХарактеристики (старые | новые):')
+        print(f'\t\tHP — {original_hp} | {self.hp}\n' +
+              f'\t\tDMG — {original_dmg} | {self.dmg}\n' +
+              f'\t\tDF — {original_df} | {self.df}')
         print()
 
     def attack(self, enemy):
